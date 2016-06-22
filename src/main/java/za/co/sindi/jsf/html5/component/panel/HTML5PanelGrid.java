@@ -1,0 +1,168 @@
+/**
+ * 
+ */
+package za.co.sindi.jsf.html5.component.panel;
+
+import javax.faces.component.FacesComponent;
+
+import za.co.sindi.jsf.html5.component.HTML5UIPanel;
+
+/**
+ * @author Bienfait Sindi
+ * @since 11 July 2015
+ *
+ */
+@FacesComponent(HTML5PanelGrid.COMPONENT_TYPE)
+public class HTML5PanelGrid extends HTML5UIPanel {
+	
+	public static final String COMPONENT_TYPE = "za.co.sindi.jsf.html5.HTML5PanelGrid";
+	public static final String RENDERER_TYPE = "za.co.sindi.jsf.html5.Grid";
+
+	private enum PropertyKeys {
+        bodyrows,
+        border,
+        captionClass,
+        captionStyle,
+        columnClasses,
+        columns,
+        footerClass,
+        headerClass,
+        role,
+        rowClasses,
+	}
+	
+	/**
+	 * 
+	 */
+	public HTML5PanelGrid() {
+		super();
+		// TODO Auto-generated constructor stub
+		setRendererType(RENDERER_TYPE);
+	}
+
+	/**
+	 * @return the bodyrows
+	 */
+	public String getBodyrows() {
+		return (String) getStateHelper().eval(PropertyKeys.bodyrows);
+	}
+
+	/**
+	 * @param bodyrows the bodyrows to set
+	 */
+	public void setBodyrows(String bodyrows) {
+		getStateHelper().put(PropertyKeys.bodyrows, bodyrows);
+	}
+
+	/**
+	 * @return the border
+	 */
+	public String getBorder() {
+		return (String) getStateHelper().eval(PropertyKeys.border);
+	}
+
+	/**
+	 * @param border the border to set
+	 */
+	public void setBorder(String border) {
+		getStateHelper().put(PropertyKeys.border, border);
+	}
+
+	/**
+	 * @return the captionClass
+	 */
+	public String getCaptionClass() {
+		return (String) getStateHelper().eval(PropertyKeys.captionClass);
+	}
+
+	/**
+	 * @param captionClass the captionClass to set
+	 */
+	public void setCaptionClass(String captionClass) {
+		getStateHelper().put(PropertyKeys.captionClass, captionClass);
+	}
+
+	/**
+	 * @return the captionStyle
+	 */
+	public String getCaptionStyle() {
+		return (String) getStateHelper().eval(PropertyKeys.captionStyle);
+	}
+
+	/**
+	 * @param captionStyle the captionStyle to set
+	 */
+	public void setCaptionStyle(String captionStyle) {
+		getStateHelper().put(PropertyKeys.captionStyle, captionStyle);
+	}
+
+	/**
+	 * @return the columnClasses
+	 */
+	public String getColumnClasses() {
+		return (String) getStateHelper().eval(PropertyKeys.columnClasses);
+	}
+
+	/**
+	 * @param columnClasses the columnClasses to set
+	 */
+	public void setColumnClasses(String columnClasses) {
+		getStateHelper().put(PropertyKeys.columnClasses, columnClasses);
+	}
+
+	/**
+	 * @return the columns
+	 */
+	public int getColumns() {
+		return (int) getStateHelper().eval(PropertyKeys.columns, Integer.MIN_VALUE);
+	}
+
+	/**
+	 * @param columns the columns to set
+	 */
+	public void setColumns(int columns) {
+		getStateHelper().put(PropertyKeys.columns, columns);
+	}
+
+	/**
+	 * @return the footerClass
+	 */
+	public String getFooterClass() {
+		return (String) getStateHelper().eval(PropertyKeys.footerClass);
+	}
+
+	/**
+	 * @param footerClass the footerClass to set
+	 */
+	public void setFooterClass(String footerClass) {
+		getStateHelper().put(PropertyKeys.footerClass, footerClass);
+	}
+
+	/**
+	 * @return the headerClass
+	 */
+	public String getHeaderClass() {
+		return (String) getStateHelper().eval(PropertyKeys.headerClass);
+	}
+
+	/**
+	 * @param headerClass the headerClass to set
+	 */
+	public void setHeaderClass(String headerClass) {
+		getStateHelper().put(PropertyKeys.headerClass, headerClass);
+	}
+
+	/**
+	 * @return the rowClasses
+	 */
+	public String getRowClasses() {
+		return (String) getStateHelper().eval(PropertyKeys.rowClasses);
+	}
+
+	/**
+	 * @param rowClasses the rowClasses to set
+	 */
+	public void setRowClasses(String rowClasses) {
+		getStateHelper().put(PropertyKeys.rowClasses, rowClasses);
+	}
+}

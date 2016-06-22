@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<facelet-taglib version="2.0"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xml="http://www.w3.org/XML/1998/namespace"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facelettaglibary_2_0.xsd">
+	
+	<namespace>http://sindi.co.za/jsf/functions</namespace>
+	
+	<!-- Converters -->
+	<tag>
+		<description>
+			<![CDATA[The <code>za.co.sindi.jsf.html5.value.Color</code> Converter.]]>
+		</description>
+		<tag-name>convertColor</tag-name>
+		<converter>
+			<converter-id>za.co.sindi.jsf.html5.converter.ColorConverter</converter-id>
+		</converter>
+	</tag>
+	<tag>
+		<description>
+			<![CDATA[The <code>za.co.sindi.jsf.html5.value.Month</code> Converter.]]>
+		</description>
+		<tag-name>convertMonth</tag-name>
+		<converter>
+			<converter-id>za.co.sindi.jsf.html5.converter.MonthConverter</converter-id>
+		</converter>
+	</tag>
+	<tag>
+		<description>
+			<![CDATA[The <code>za.co.sindi.jsf.html5.value.Time</code> Converter.]]>
+		</description>
+		<tag-name>convertTime</tag-name>
+		<converter>
+			<converter-id>za.co.sindi.jsf.html5.converter.TimeConverter</converter-id>
+		</converter>
+	</tag>
+	<tag>
+		<description>
+			<![CDATA[The <code>java.net.URI</code> Converter.]]>
+		</description>
+		<tag-name>convertURI</tag-name>
+		<converter>
+			<converter-id>za.co.sindi.jsf.html5.converter.URIConverter</converter-id>
+		</converter>
+	</tag>
+	<tag>
+		<description>
+			<![CDATA[The <code>java.net.URL</code> Converter.]]>
+		</description>
+		<tag-name>convertURL</tag-name>
+		<converter>
+			<converter-id>za.co.sindi.jsf.html5.converter.URLConverter</converter-id>
+		</converter>
+	</tag>
+</facelet-taglib>

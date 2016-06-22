@@ -1,0 +1,142 @@
+/**
+ * 
+ */
+package za.co.sindi.jsf.html5.converter;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.logging.Level;
+
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIForm;
+import javax.faces.context.FacesContext;
+import javax.faces.convert.ConverterException;
+import javax.faces.convert.FacesConverter;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Part;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileItemFactory;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+
+import za.co.sindi.jsf.html5.component.form.HTML5Form;
+import za.co.sindi.jsf.html5.utils.RendererUtils;
+import za.co.sindi.jsf.html5.value.FormFile;
+import za.co.sindi.jsf.html5.value.impl.FileItemFormFile;
+import za.co.sindi.jsf.html5.value.impl.ServletPartFormFile;
+
+/**
+ * @author Bienfait Sindi
+ * @since 14 August 2013
+ *
+ */
+@FacesConverter(FileConverter.CONVERTER_ID)
+public class FileConverter extends AbstractConverter {
+
+	public static final String CONVERTER_ID = "za.co.sindi.jsf.html5.converter.FileConverter";
+	
+	/* (non-Javadoc)
+	 * @see za.co.sindi.jsf.html5.converter.AbstractConverter#convertToObject(javax.faces.context.FacesContext, javax.faces.component.UIComponent, java.lang.String)
+	 */
+	@Override
+	protected Object convertToObject(FacesContext context, UIComponent component, String value) {
+		// TODO Auto-generated method stub
+		if (LOGGER.isLoggable(Level.INFO)) {
+			LOGGER.info("Value " + value + " has been received but will never be used for retrieving uploaded files.");
+		}
+		
+		UIForm form = RendererUtils.findParentComponent(component, UIForm.class);
+		if (form == null) {
+			throw new ConverterException(component.getClientId(context) + " is not nested inside a UIForm component (" + RendererUtils.getPathToComponent(component) + ").");
+		}
+		
+		String encodingType = "";
+		if (form instanceof HTML5Form) {
+			encodingType = ((HTML5Form)form).getEnctype();
+		} else {
+			encodingType = (String) component.getAttributes().get("enctype");
+		}
+		
+		if (!"multipart/form-data".equals(encodingType)) {
+			throw new ConverterException("File upload requires enctype of multipart/form-data. Instead, the enctype entered is " + encodingType + ".");
+		}
+		
+		List<FormFile> formFiles = new ArrayList<FormFile>();
+		
+		try {
+			String clientId = component.getClientId(context);
+			ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+			HttpServletRequest request = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
+			
+			if (servletContext.getMajorVersion() < 3) {
+				//Not using Servlet 3, use Apache Commons File Upload
+				//This is just a sanity check, though we checked it already, so do we need to do this?
+				if (!ServletFileUpload.isMultipartContent(request)) {
+					throw new ConverterException("Apache Commons File Upload identified this request does not contain multipart content.");
+				}
+				
+				// Create a factory for disk-based file items
+				FileItemFactory factory = new DiskFileItemFactory();
+
+				// Create a new file upload handler
+				ServletFileUpload upload = new ServletFileUpload(factory);
+
+				// Parse the request
+				List<FileItem> items = upload.parseRequest(request);
+				for (FileItem item : items) {
+					if (!item.isFormField()) {
+						//This is an uploaded file
+						if (clientId.equals(item.getFieldName())) {
+							formFiles.add(new FileItemFormFile(item));
+						}
+					}
+				}
+			} else {
+				Collection<Part> parts = request.getParts();
+				if (parts != null) {
+					for (Part part : parts) {
+						if (clientId.equals(part.getName())) {
+							formFiles.add(new ServletPartFormFile(part));
+						}
+					}
+				}
+			}
+		} catch (FileUploadException e) {
+			// TODO Auto-generated catch block
+			throw new ConverterException("Error identified during file conversion.", e);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			throw new ConverterException("Error identified during file conversion.", e);
+		} catch (ServletException e) {
+			// TODO Auto-generated catch block
+			throw new ConverterException("Error identified during file conversion.", e);
+		}
+		
+		if (formFiles.size() > 1) {
+			return formFiles.toArray(new FormFile[formFiles.size()]);
+		}
+		
+		return formFiles.get(0);
+	}
+
+	/* (non-Javadoc)
+	 * @see za.co.sindi.jsf.html5.converter.AbstractConverter#convertToString(javax.faces.context.FacesContext, javax.faces.component.UIComponent, java.lang.Object)
+	 */
+	@Override
+	protected String convertToString(FacesContext context, UIComponent component, Object value) {
+		// TODO Auto-generated method stub
+		// The API prevents us populating the value attribute, so we blank this....
+//		if (!(value instanceof FormFile)) {
+//			throw new IllegalArgumentException("Value class " + value.getClass().getName() + " is not an instance of " + FormFile.class.getName());
+//		}
+//		
+//		return ((FormFile)value).getFileName();
+		return "";
+	}
+}
